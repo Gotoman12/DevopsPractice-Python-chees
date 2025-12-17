@@ -5,6 +5,7 @@
 steps to run the appliation
 
 **How to run locally**
+
 python -m venv venv
 source venv/bin/activate   # Linux/Mac
 venv\Scripts\activate      # Windows
