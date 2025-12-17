@@ -1,7 +1,5 @@
 
 # DevopsPractice-Python-chees- Application
-
-
 steps to run the appliation
 
 **How to run locally**
