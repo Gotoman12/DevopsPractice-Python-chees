@@ -1,6 +1,8 @@
 # DevopsPractice-Python-chees
 # DevopsPractice-Python-chees- Application
-steps to run the appliatio
+
+
+steps to run the appliation
 
 **How to run locally**
 python -m venv venv
