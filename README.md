@@ -11,6 +11,7 @@ venv\Scripts\activate      # Windows
 
 pip install -r requirements.txt
 python app.py
+
 **Open browser:**
 http://localhost:5000 // if you are hosting in the ec2 den use the public ip addess of EC2
 
