@@ -2,7 +2,7 @@ pipeline{
     agent any
     
     environment{
-        IMAGE_NAME:'arjunckm/python:${BUILD_NUMER}'
+        IMAGE_NAME:'arjunckm/python:${BUILD_NUMBER}'
     }
     stages{
         stage("GIT_CHEKKOUT"){
