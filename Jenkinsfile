@@ -2,7 +2,7 @@ pipeline{
     agent any
     
     environment{
-        IMAGE_NAME:'arjunckm/python:${GIT_COMMIT}'
+        IMAGE_NAME:"arjunckm/python:${GIT_COMMIT}"
     }
     stages{
         stage("GIT_CHEKKOUT"){
@@ -20,7 +20,7 @@ pipeline{
                 sh 'docker run -it -d --name python-chess -p 6001:5000 ${IMAGE_NAME}'
             }
         }
-         stage("docker-push"){
+         stage("docker-cred"){
             steps{
                 script {
                    withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
