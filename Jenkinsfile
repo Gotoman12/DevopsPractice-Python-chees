@@ -18,8 +18,6 @@ pipeline{
         stage("docker-run"){
             steps{
                 sh '''
-                docker kill python-chess
-                docker rm python-chess
                 docker run -it -d --name python-chess -p 6001:5000 ${IMAGE_NAME}
                 '''
             }
