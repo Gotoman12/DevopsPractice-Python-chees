@@ -1,5 +1,7 @@
 pipeline{
-    agent any
+    agent {
+        label 'pprd'
+    }
     
     environment{
         IMAGE_NAME="arjunckm/python:${GIT_COMMIT}"
