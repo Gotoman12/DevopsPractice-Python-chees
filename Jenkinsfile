@@ -9,7 +9,7 @@ pipeline{
     stages{
         stage("GIT_CHEKKOUT"){
             steps{
-                git url:'https://github.com/Gotoman12/DevopsPractice-Python-chees.git',branch:'main'
+                git url:'https://github.com/Gotoman12/DevopsPractice-Python-chees.git',branch:'pprd'
             }
         }
         stage("docker-build"){
