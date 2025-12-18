@@ -17,7 +17,7 @@ pipeline{
         }
         stage("docker-run"){
             steps{
-                sh 'docker run -it -d --name python-chess -p 5001:5000 ${IMAGE_NAME}'
+                sh 'docker run -it -d --name python-chess -p 6001:5000 ${IMAGE_NAME}'
             }
         }
          stage("docker-push"){
