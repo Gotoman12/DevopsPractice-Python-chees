@@ -1,5 +1,5 @@
 pipeline{
-    angent any
+    agent any
     
     environment{
         IMAGE_NAME:'arjunckm/python:${BUILD_NUMER}'
