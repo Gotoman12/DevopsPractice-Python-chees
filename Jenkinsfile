@@ -10,11 +10,6 @@ pipeline{
                 git url:'https://github.com/Gotoman12/DevopsPractice-Python-chees.git',branch:'main'
             }
         }
-        stage("build"){
-            steps{
-                sh 'python3 -m venv venv && source venv/bin/activate'
-            }
-        }
         stage("docker-build"){
             steps{
                 sh 'docker build -t ${IMAGE_NAME} .'
