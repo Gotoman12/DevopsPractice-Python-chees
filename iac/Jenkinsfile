@@ -1,0 +1,40 @@
+pipeline{
+    agent any
+    parameters{
+        choice(name:'terrafromAction',choices:['apply','destroy'],description:'choose the terraform Action')
+    }
+
+    environment{
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_KEY_ID = credentials('AWS_SECRET_KEY_ID')
+    }
+
+    stages{
+        stage('GIT_CHECkOUT'){
+            steps{
+                     git url:"https://github.com/Gotoman12/DevopsPractice-Python-chees.git",branch:'Iac'
+            }
+        }
+        stage("terraform-plan"){
+            steps{
+                sh '''
+                  pwd
+                  cd iac
+                  terraform init
+                  terraform plan -out tfplan
+                  terraform show -no-colour tfplan >> tfplan.txt
+                '''
+            }
+
+        }
+        stage("terraform-approval"){
+            steps{
+                script{
+                    def plan = readFile 'iac/tfplan.txt'
+                    input message = "Do you want to proceed with terraform action....?"
+                    parameters: [text(name:'plan',descrpition: 'can you review your for more time',defaultValue:plan)]
+                }
+            }
+        }
+    }
+}
