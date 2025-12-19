@@ -19,10 +19,10 @@ pipeline{
             steps{
                 sh '''
                   pwd
-                  cd DevopsPractice-Python-chees/iac
+                  cd iac
                   terraform init
                   terraform plan -out tfplan
-                  terraform show -no-colour tfplan >> tfplan.txt
+                  terraform show -no-colour tfplan >> ../tfplan.txt
                 '''
             }
 
@@ -48,10 +48,10 @@ pipeline{
             script{
                 if (params.terraformAction == 'apply'){
                         // Use the correct directory
-                        sh "cd DevopsPractice-Python-chees/iac; terraform apply -input=false tfplan" 
+                        sh "cd iac; terraform apply -input=false tfplan" 
             } else if(params.terraformAction == 'destroy'){
                         // Use the correct directory
-                        sh "cd DevopsPractice-Python-chees/iac; terraform destroy -auto-approve" 
+                        sh "cd iac; terraform destroy -auto-approve" 
                     }
                }
            }
