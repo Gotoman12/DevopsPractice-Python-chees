@@ -25,7 +25,7 @@ pipeline {
         stage('Terraform Init & Plan') {
             steps {
                 sh '''
-                  cd iac
+                  cd Project-user
                   terraform init
                   terraform plan -out=tfplan
                   terraform show -no-color tfplan > tfplan.txt
