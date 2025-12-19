@@ -19,7 +19,7 @@ pipeline{
             steps{
                 sh '''
                   pwd
-                  cd iac
+                  cd DevopsPractice-Python-chees/iac
                   terraform init
                   terraform plan -out tfplan
                   terraform show -no-colour tfplan >> tfplan.txt
@@ -32,9 +32,27 @@ pipeline{
                 script{
                     def plan = readFile 'iac/tfplan.txt'
                     input message = "Do you want to proceed with terraform action....?"
-                    parameters: [text(name:'plan',descrpition: 'can you review your for more time',defaultValue:plan)]
+                    parameters: [
+                        text(name:'planReview',descrpition: 'Can you review your for more time',defaultValue:plan)
+                        ]
                 }
             }
         }
+         stage('Apply or Destroy'){
+            when{
+                expression{
+                    return params.terraformAction == 'apply' || params.terraformAction == 'destroy'
+                }
+            }
+         steps{
+            script{
+                if (params.terraformAction == 'apply'){
+                        // Use the correct directory
+                        sh "cd DevopsPractice-Python-chees/iac; terraform apply -input=false tfplan" 
+            } else if(params.terraformAction == 'destroy'){
+                        // Use the correct directory
+                        sh "cd DevopsPractice-Python-chees/iac; terraform destroy -auto-approve" 
+                    }
+         }
     }
 }
