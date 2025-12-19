@@ -49,7 +49,7 @@ resource "aws_route_table" "public_route_table" {
     vpc_id = aws_vpc.vpc-arjun
 
 tags = {
-  Name = "public_route"
+  Name = "public_route_custom"
  }
 }
 
