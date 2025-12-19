@@ -1,0 +1,66 @@
+pipeline {
+    agent any
+
+    parameters {
+        choice(
+            name: 'terraformAction',
+            choices: ['apply', 'destroy'],
+            description: 'Choose Terraform action'
+        )
+    }
+
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/Gotoman12/DevopsPractice-Python-chees.git', branch: 'Iac'
+            }
+        }
+
+        stage('Terraform Init & Plan') {
+            steps {
+                sh '''
+                  cd iac
+                  terraform init
+                  terraform plan -out=tfplan
+                  terraform show -no-color tfplan > tfplan.txt
+                '''
+            }
+        }
+
+        stage('Manual Approval') {
+            steps {
+                script {
+                    def plan = readFile 'Project-user/tfplan.txt'
+                    input(
+                        message: 'Review Terraform Plan',
+                        parameters: [
+                            text(
+                                name: 'PlanReview',
+                                description: 'Terraform execution plan',
+                                defaultValue: plan
+                            )
+                        ]
+                    )
+                }
+            }
+        }
+
+        stage('Apply / Destroy') {
+            steps {
+                script {
+                    if (params.terraformAction == 'apply') {
+                        sh 'cd Project-user && terraform apply -input=false tfplan'
+                    } else {
+                        sh 'cd Project-user && terraform destroy -auto-approve'
+                    }
+                }
+            }
+        }
+    }
+}
