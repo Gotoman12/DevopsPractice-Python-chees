@@ -38,7 +38,7 @@ pipeline{
                 }
             }
         }
-         stage('Apply or Destroy'){
+        stage('Apply or Destroy'){
             when{
                 expression{
                     return params.terraformAction == 'apply' || params.terraformAction == 'destroy'
@@ -53,6 +53,8 @@ pipeline{
                         // Use the correct directory
                         sh "cd DevopsPractice-Python-chees/iac; terraform destroy -auto-approve" 
                     }
-         }
+               }
+           }
+       }
     }
 }
