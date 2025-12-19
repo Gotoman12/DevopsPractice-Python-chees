@@ -16,18 +16,15 @@ resource "aws_iam_policy" "s3_access_policy" {
   description = "Allow access to specific S3 bucket"
 
   policy = jsonencode({
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Sid": "Statement1",
-			"Effect": "Allow",
-			"Action": [
-				"s3:*"
-			],
-			"Resource": []
-		}
-	]
-})
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "s3:*"
+        Resource = "*"
+      }
+    ]
+  })
 }
 
 resource "aws_iam_user_policy_attachment" "attach_policy" {
