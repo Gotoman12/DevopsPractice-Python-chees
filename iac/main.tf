@@ -30,7 +30,7 @@ tags = {
 }
 # creation of subnet-private and assocaiate vpc
 resource "aws_subnet" "subnet-private" {
-vpc_id = aws_vpc.vpc-arjun
+vpc_id = aws_vpc.vpc-arjun.id
 cidr_block = "20.0.2.0/24"
 availability_zone = "us-east-2a"
 map_public_ip_on_launch = true
@@ -43,7 +43,7 @@ tags = {
 
 #creation of route table
 resource "aws_route_table" "public_route_table" {
-    vpc_id = aws_vpc.vpc-arjun
+    vpc_id = aws_vpc.vpc-arjun.id
 
 tags = {
   Name = "public_route_custom"
@@ -52,7 +52,7 @@ tags = {
 
 #creaion of internetgateway
 resource "aws_internet_gateway" "ig_arjun" {
-    vpc_id = aws_vpc.vpc-arjun
+    vpc_id = aws_vpc.vpc-arjun.id
     tags ={
         Name = "ig_arjun"
     }
