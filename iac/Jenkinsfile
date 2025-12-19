@@ -22,7 +22,7 @@ pipeline{
                   cd iac
                   terraform init
                   terraform plan -out tfplan
-                  terraform show -no-colour tfplan >> ../tfplan.txt
+                  terraform show -no-colour tfplan >> tfplan.txt
                 '''
             }
 
