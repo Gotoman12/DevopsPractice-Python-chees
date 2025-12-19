@@ -18,7 +18,7 @@ resource "aws_vpc" "vpc-arjun" {
 # creation of subnet-public and assocaiate vpc
 
 resource "aws_subnet" "subnet-public" {
-vpc_id = aws_vpc.vpc-arjun
+vpc_id = aws_vpc.vpc-arjun.id
 cidr_block = "20.0.1.0/24"
 availability_zone = "us-east-1a"
 map_public_ip_on_launch = true
