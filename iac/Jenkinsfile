@@ -1,60 +1,71 @@
-pipeline{
+pipeline {
     agent any
-    parameters{
-        choice(name:'terrafromAction',choices:['apply','destroy'],description:'choose the terraform Action')
+
+    parameters {
+        choice(
+            name: 'terraformAction',
+            choices: ['apply', 'destroy'],
+            description: 'Choose the Terraform action'
+        )
     }
 
-    environment{
-        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     }
 
-    stages{
-        stage('GIT_CHECkOUT'){
-            steps{
-                     git url:"https://github.com/Gotoman12/DevopsPractice-Python-chees.git",branch:'Iac'
+    stages {
+
+        stage('GIT_CHECKOUT') {
+            steps {
+                git url: 'https://github.com/Gotoman12/DevopsPractice-Python-chees.git', branch: 'Iac'
             }
         }
-        stage("terraform-plan"){
-            steps{
+
+        stage('terraform-plan') {
+            steps {
                 sh '''
-                  pwd
                   cd iac
                   terraform init
-                  terraform plan -out tfplan
-                  terraform show -no-colour tfplan >> tfplan.txt
+                  terraform plan -out=tfplan
+                  terraform show -no-color tfplan > tfplan.txt
                 '''
             }
+        }
 
-        }
-        stage("terraform-approval"){
-            steps{
-                script{
+        stage('terraform-approval') {
+            steps {
+                script {
                     def plan = readFile 'iac/tfplan.txt'
-                    input message = "Do you want to proceed with terraform action....?"
-                    parameters: [
-                        text(name:'planReview',descrpition: 'Can you review your for more time',defaultValue:plan)
+                    input(
+                        message: "Do you want to proceed with Terraform?",
+                        parameters: [
+                            text(
+                                name: 'planReview',
+                                description: 'Review Terraform execution plan',
+                                defaultValue: plan
+                            )
                         ]
+                    )
                 }
             }
         }
-        stage('Apply or Destroy'){
-            when{
-                expression{
-                    return params.terraformAction == 'apply' || params.terraformAction == 'destroy'
+
+        stage('Apply or Destroy') {
+            when {
+                expression {
+                    params.terraformAction in ['apply', 'destroy']
                 }
             }
-         steps{
-            script{
-                if (params.terraformAction == 'apply'){
-                        // Use the correct directory
-                        sh "cd iac; terraform apply -input=false tfplan" 
-            } else if(params.terraformAction == 'destroy'){
-                        // Use the correct directory
-                        sh "cd iac; terraform destroy -auto-approve" 
+            steps {
+                script {
+                    if (params.terraformAction == 'apply') {
+                        sh 'cd iac && terraform apply -input=false tfplan'
+                    } else {
+                        sh 'cd iac && terraform destroy -auto-approve'
                     }
-               }
-           }
-       }
+                }
+            }
+        }
     }
 }
