@@ -32,7 +32,7 @@ tags = {
 resource "aws_subnet" "subnet-private" {
 vpc_id = aws_vpc.vpc-arjun.id
 cidr_block = "20.0.2.0/24"
-availability_zone = "us-east-2a"
+availability_zone = "us-east-1b"
 map_public_ip_on_launch = true
 
 tags = {
